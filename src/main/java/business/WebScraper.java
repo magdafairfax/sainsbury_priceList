@@ -7,6 +7,7 @@ import entity.Product;
 import entity.Results;
 import entity.Total;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import utils.VatCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class WebScraper {
         // this example doesn't need javascript and disabling Javascript makes the page load faster in general
         client.getOptions().setJavaScriptEnabled(false);
         Pattern pat = Pattern.compile("\\£(-?\\d+.\\d+)?.*");
+        VatCalculator vatCalc = new VatCalculator();
         double sum = 0.0;
         double price = 0.0;
 
@@ -76,7 +78,7 @@ public class WebScraper {
                     }
 
                     ObjectMapper mapper = new ObjectMapper();
-                    Total totalCost = new Total(sum, (sum /100)*20);
+                    Total totalCost = new Total(sum, vatCalc.getVatAmountFromGross(sum));
                     Results results = new Results(productList, totalCost);
                     String jsonString = mapper.writeValueAsString(results) ;
                     System.out.println(jsonString);

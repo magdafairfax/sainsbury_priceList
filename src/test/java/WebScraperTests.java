@@ -46,7 +46,6 @@ public class WebScraperTests {
         final List<HtmlElement>  items = (List<HtmlElement>) page.getByXPath("//li[@class='gridItem']/div");
         //check if the list of products is not null
         Assert.assertNotNull(items);
-
     }
 
     @Test
@@ -57,6 +56,5 @@ public class WebScraperTests {
         for (HtmlElement  item:items) {
             Assert.assertFalse(item.asText().isEmpty());
         }
-
     }
 }
